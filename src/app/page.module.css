@@ -1,0 +1,27 @@
+.header {
+  height: 12vh;
+  width: 100vw;
+}
+
+.display {
+  top: 12vh;
+  height: 88vh;
+  display: flex;
+  padding: 10px;
+}
+
+.sideTabs {
+  display: flex;
+  flex-direction: column;
+  width: 10vw;
+}
+.sideTabs > button {
+  height: 10vh;
+}
+
+.mainView {
+  width: 90vw;
+  height: 88vh;
+  padding: 0 20px;
+  border: 1px solid white
+}

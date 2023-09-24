@@ -5,7 +5,6 @@ type TariffCharge = {
 };
 
 interface TariffChargeRepository {
-  addCharges(charges: TariffCharge[]): Promise<boolean>;
-  getChargesForDay(day: Date): Promise<TariffCharge[]>;
+  getChargesBetween(start: Date, end: Date): Promise<TariffCharge[]>;
   getMostRecentDay(): Promise<Date>;
 }

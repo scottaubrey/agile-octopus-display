@@ -1,25 +1,44 @@
-import { Database } from "bun:sqlite";
-import { Client, ProductCode, TariffCode } from "../../api/client";
+import { Client, ProductCode, TariffCode } from "../../agile-octopus-api/client";
+
+`E-1R-$OCTOPUS_PRODUCTCODE-$OCTOPUS_REGIONCODE`
+
+const tariffSort = (a: TariffCharge, b: TariffCharge) => {
+  if (a.start < b.start) {
+    return -1;
+  }
+  if (a.start > b.start) {
+    return 1;
+  }
+  return 0
+}
 
 class ApiTariffChargeRepository implements TariffChargeRepository {
   constructor(
     private api: Client,
     private productCode: ProductCode,
-    private tariffCode: TariffCode
+    private regionCode: string
   ) {}
 
-  async getChargesForDay(day: Date): Promise<TariffCharge[]> {
-    throw new Error("Method not implemented.");
+  getTariffCode(): string {
+    return `E-1R-${this.productCode}-${this.regionCode}`;
   }
 
-  async addCharges(charges: TariffCharge[]): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async getChargesBetween(start: Date, end: Date): Promise<TariffCharge[]> {
+    return (await this.api.listTarrifCharges(
+      this.productCode,
+      this.getTariffCode(),
+      {
+        periodFrom: start,
+        periodTo: end
+      }
+    )).map(({amountIncVat, start, end}) => ({ amount: amountIncVat, start, end }))
+    .sort(tariffSort);
   }
 
   async getMostRecentDay(): Promise<Date> {
     const result = await this.api.listTarrifCharges(
       this.productCode,
-      this.tariffCode,
+      this.getTariffCode(),
       { pageSize: 1 }
     );
 

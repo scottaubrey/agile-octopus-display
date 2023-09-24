@@ -27,9 +27,11 @@ class SqliteTariffChargeRepository implements TariffChargeRepository {
   async getChargesForDay(day: Date): Promise<TariffCharge[]> {
     throw new Error("Method not implemented.");
   }
+
   async addCharges(charges: TariffCharge[]): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
+
   async getMostRecentDay(): Promise<Date> {
     const query = this.db.query<TariffChargeTableRow, []>(Sql.getMostRecentDay);
     const latestCharge = query.get();

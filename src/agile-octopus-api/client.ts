@@ -20,7 +20,7 @@ type TariffCharge = {
   end: Date;
 };
 type GetTariffChargesResponse = {
-  result: Array<{
+  results: Array<{
     value_exc_vat: number;
     value_inc_vat: number;
     valid_from: string;
@@ -48,7 +48,7 @@ type MeterConsumption = {
   consumption: number;
 };
 type GetMeterConsumptionResponse = {
-  result: MeterConsumption[];
+  results: MeterConsumption[];
 };
 
 export class Client {
@@ -60,52 +60,32 @@ export class Client {
     return Buffer.from(this.apiKey).toString("base64");
   }
 
-  private async makeGetRequest(url: string) {
+  private async makeGetRequest<ReturnType>(url: string) {
     const headers = new Headers();
     headers.set("Authorization", this.getAuthorizationHeader());
-    return fetch(url, { headers }).then((response) => response.json());
-  }
-
-  public async getProducts(): Promise<null> {
-    const headers = new Headers();
-    headers.set("Authorization", this.getAuthorizationHeader());
-    const result = await fetch(`${this.baseUrl}/v1/products`, { headers });
-
-    console.log(result);
-
-    return null;
-  }
-
-  public async getProduct(productCode: ProductCode): Promise<null> {
-    const headers = new Headers();
-    headers.set("Authorization", this.getAuthorizationHeader());
-    const result = await fetch(`${this.baseUrl}/v1/products/${productCode}`, {
-      headers,
-    });
-
-    console.log(result);
-
-    return null;
+    return fetch(url, { headers }).then(
+      (response) => response.json() as ReturnType
+    );
   }
 
   public async listTarrifCharges(
     productCode: ProductCode,
     tariffCode: TariffCode,
-    params?: GetTariffChargesParams,
+    params?: GetTariffChargesParams
   ): Promise<TariffCharge[]> {
     const urlParams: GetTariffChargesUrlParams = {};
     if (params?.periodFrom) {
-      urlParams["period_from"] = params.periodFrom.toISOString();
+      urlParams.period_from = params.periodFrom.toISOString();
     }
     if (params?.periodTo) {
-      urlParams["period_to"] = params.periodTo.toISOString();
+      urlParams.period_to = params.periodTo.toISOString();
     }
     if (params?.pageSize) {
-      urlParams["page_size"] = params.pageSize;
+      urlParams.page_size = params.pageSize;
     }
 
-    const response = await this.makeGetRequest(
-      `${this.baseUrl}/v1/products/${productCode}/electricity-tariffs/${tariffCode}/standard-unit-rates/?${new URLSearchParams(urlParams).toString()}`,
+    const response = await this.makeGetRequest<GetTariffChargesResponse>(
+      `${this.baseUrl}/v1/products/${productCode}/electricity-tariffs/${tariffCode}/standard-unit-rates/?${new URLSearchParams(urlParams).toString()}`
     );
 
     return response.results.map((tariff) => ({
@@ -119,24 +99,22 @@ export class Client {
   public async getMeterConsumption(
     mpan: MeterPointAdministrationNumber,
     serialNumber: MeterSerialNumber,
-    params?: GetMeterConsumptionParams,
+    params?: GetMeterConsumptionParams
   ): Promise<MeterConsumption[]> {
-    const urlParams: GetTariffChargesUrlParams = {};
+    const urlParams: GetMeterConsumptionUrlParams = {};
     if (params?.periodFrom) {
-      urlParams["period_from"] = params.periodFrom.toISOString();
+      urlParams.period_from = params.periodFrom.toISOString();
     }
     if (params?.periodTo) {
-      urlParams["period_to"] = params.periodTo.toISOString();
+      urlParams.period_to = params.periodTo.toISOString();
     }
     if (params?.pageSize) {
-      urlParams["page_size"] = params.pageSize;
+      urlParams.page_size = params.pageSize;
     }
 
-    const request = `${this.baseUrl}/v1/electricity-meter-points/${mpan}/meters/${serialNumber}/consumption/?${new URLSearchParams(urlParams).toString()}`;
-    const headers = new Headers();
-    headers.set("Authorization", this.getAuthorizationHeader());
-    const result = await fetch(request, { headers });
-
-    return (await result.json()).results;
+    const result = await this.makeGetRequest<GetMeterConsumptionResponse>(
+      `${this.baseUrl}/v1/electricity-meter-points/${mpan}/meters/${serialNumber}/consumption/?${new URLSearchParams(urlParams).toString()}`,
+    );
+    return result.results;
   }
 }

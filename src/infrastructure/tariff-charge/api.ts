@@ -5,20 +5,22 @@ class ApiTariffChargeRepository implements TariffChargeRepository {
   constructor(
     private api: Client,
     private productCode: ProductCode,
-    private tariffCode: TariffCode,
+    private tariffCode: TariffCode
   ) {}
 
   async getChargesForDay(day: Date): Promise<TariffCharge[]> {
     throw new Error("Method not implemented.");
   }
+
   async addCharges(charges: TariffCharge[]): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
+
   async getMostRecentDay(): Promise<Date> {
     const result = await this.api.listTarrifCharges(
       this.productCode,
       this.tariffCode,
-      { pageSize: 1 },
+      { pageSize: 1 }
     );
 
     if (result[0].start.toDateString() !== result[0].end.toDateString()) {
@@ -32,5 +34,5 @@ class ApiTariffChargeRepository implements TariffChargeRepository {
 export const createApiTariffChargeRepository = (
   api: Client,
   productCode: ProductCode,
-  tariffCode: TariffCode,
+  tariffCode: TariffCode
 ) => new ApiTariffChargeRepository(api, productCode, tariffCode);

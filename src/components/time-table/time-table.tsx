@@ -15,7 +15,6 @@ export const TimeTable = () => {
   while (date < dateUntil) {
     timePeriods.push(new Date(date));
     date.setMinutes(date.getMinutes() + 30);
-    console.log(date.toISOString());
   }
 
   return (

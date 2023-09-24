@@ -1,7 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
-  "plugins": ["prettier"],
+  "extends": ["airbnb-base-typescript-prettier", "next/core-web-vitals"],
   "rules": {
-    "prettier/prettier": "error"
+    "import/prefer-default-export": ["off"]
   }
 }

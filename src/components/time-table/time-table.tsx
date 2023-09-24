@@ -12,12 +12,16 @@ export const TimeTable = ({data}: {data: TariffData[]}) => {
   const min = Math.min(...dateSortedData.map((tariff) => tariff.amount));
   const max = Math.max(...dateSortedData.map((tariff) => tariff.amount));
 
-
+  const minTick = Math.floor(min-1);
+  const maxTick = Math.ceil(max+1);
+  const range = [...Array(maxTick-minTick).keys()];
+  const ticks = range.slice(0, Math.ceil(range.length/2)).map((number) => (number*2)+(minTick)).map((number) => number.toFixed(2));
+  console.log(minTick, maxTick, ticks);
 
   return (
     <>
       <ResponsiveContainer height="100%" width="100%">
-        <LineChart data={dateSortedData} margin={{ right: 100, bottom: 50 }}>
+        <LineChart data={dateSortedData} margin={{ left: 20, right: 100, bottom: 50 }}>
           <defs>
             <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
@@ -25,7 +29,7 @@ export const TimeTable = ({data}: {data: TariffData[]}) => {
             </linearGradient>
           </defs>
           <XAxis dataKey="period" angle={270} textAnchor='end' />
-          <YAxis unit='p' domain={['dataMin-2', 'dataMax+2']}/>
+          <YAxis unit='p' domain={['dataMin-2', 'dataMax+2']} ticks={ticks} />
           <Line type="monotone" dataKey="amount" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPrice)"/>
           <ReferenceLine y={average} stroke="red" strokeDasharray="3 3">
             <Label position='right' color="white">{`${average.toFixed(2)}p avg`}</Label>

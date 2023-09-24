@@ -1,5 +1,5 @@
-declare module '@iconscout/react-unicons' {
-  import { SVGProps } from 'react';
+declare module "@iconscout/react-unicons" {
+  import { SVGProps } from "react";
 
   export type IconProps = {
     color?: string;

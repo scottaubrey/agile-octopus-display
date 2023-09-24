@@ -7,22 +7,22 @@ const Sql = {
       start TEXT,
       end TEXT,
       amount DECIMAL
-    )`
+    )`,
   ],
-  addCharge: 'INSERT INTO tariff_charge (start, end, amount) VALUES (?, ?, ?)',
-  getChargesForDay: 'SELECT * FROM tariff_charge WHERE start > ? AND end < ?',
-  getMostRecentDay: 'SELECT * FROM tariff_charge ORDER BY end DESC LIMIT 1',
+  addCharge: "INSERT INTO tariff_charge (start, end, amount) VALUES (?, ?, ?)",
+  getChargesForDay: "SELECT * FROM tariff_charge WHERE start > ? AND end < ?",
+  getMostRecentDay: "SELECT * FROM tariff_charge ORDER BY end DESC LIMIT 1",
 };
 
 type TariffChargeTableRow = {
-  id: number,
-  start: string,
-  end: string,
-  amount: number,
+  id: number;
+  start: string;
+  end: string;
+  amount: number;
 };
 
 class SqliteTariffChargeRepository implements TariffChargeRepository {
-  constructor(private db: Database) { }
+  constructor(private db: Database) {}
 
   async getChargesForDay(day: Date): Promise<TariffCharge[]> {
     throw new Error("Method not implemented.");
@@ -34,7 +34,7 @@ class SqliteTariffChargeRepository implements TariffChargeRepository {
     const query = this.db.query<TariffChargeTableRow, []>(Sql.getMostRecentDay);
     const latestCharge = query.get();
     if (latestCharge === null) {
-      throw new Error('Cannot find any data');
+      throw new Error("Cannot find any data");
     }
 
     return new Date(latestCharge.end);
@@ -45,4 +45,4 @@ export const createSqliteTariffChargeRepository = (database: Database) => {
   database.exec(Sql.schema[0]);
 
   return new SqliteTariffChargeRepository(database);
-}
+};

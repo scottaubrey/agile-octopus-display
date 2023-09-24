@@ -1,7 +1,7 @@
 type TariffCharge = {
-  start: Date,
-  end: Date,
-  amount: number,
+  start: Date;
+  end: Date;
+  amount: number;
 };
 
 interface TariffChargeRepository {

@@ -60,9 +60,12 @@ export class Client {
     return Buffer.from(this.apiKey).toString("base64");
   }
 
-  private async makeGetRequest<ReturnType>(url: string) {
+  private async makeGetRequest<ReturnType, UrlParamsType>(url: string, params: UrlParamsType) {
     const headers = new Headers();
     headers.set("Authorization", this.getAuthorizationHeader());
+
+    const urlParams = new URLSearchParams(params as Record<string, string>).toString()
+
     return fetch(url, { headers }).then(
       (response) => response.json() as ReturnType
     );
@@ -85,7 +88,11 @@ export class Client {
     }
 
     const response = await this.makeGetRequest<GetTariffChargesResponse>(
-      `${this.baseUrl}/v1/products/${productCode}/electricity-tariffs/${tariffCode}/standard-unit-rates/?${new URLSearchParams(urlParams).toString()}`
+      `${
+        this.baseUrl
+      }/v1/products/${productCode}/electricity-tariffs/${tariffCode}/standard-unit-rates/?${new URLSearchParams(
+        urlParams
+      ).toString()}`
     );
 
     return response.results.map((tariff) => ({
@@ -113,7 +120,11 @@ export class Client {
     }
 
     const result = await this.makeGetRequest<GetMeterConsumptionResponse>(
-      `${this.baseUrl}/v1/electricity-meter-points/${mpan}/meters/${serialNumber}/consumption/?${new URLSearchParams(urlParams).toString()}`,
+      `${
+        this.baseUrl
+      }/v1/electricity-meter-points/${mpan}/meters/${serialNumber}/consumption/?${new URLSearchParams(
+        urlParams
+      ).toString()}`
     );
     return result.results;
   }

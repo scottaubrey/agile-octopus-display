@@ -7,21 +7,19 @@
   top: 12vh;
   height: 88vh;
   display: flex;
-  padding: 10px;
 }
 
 .sideTabs {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   width: 10vw;
-}
-.sideTabs > button {
-  height: 10vh;
 }
 
 .mainView {
+  border: 1px solid var(--complement-color);
+  background: var(--bg-color);
+  margin: 5px 5px 5px 0px;
+  flex-grow: 1;
   width: 90vw;
-  height: 88vh;
-  padding: 0 20px;
-  border: 1px solid white
 }

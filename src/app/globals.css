@@ -1,10 +1,22 @@
 :root {
-
+  --background-color: #0B0C10;
+  --complement-bg-color: #1F2833;
+  --accent-color: #66FCF1;
+  --complement-color: #45A29E;
+  --text-color: #C5C6C7;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-
+    /* Colour Scheme 1: #0B0C10 #1F2833 #C5C6C7 #66FCF1 #45A29E */
+    /* Colour Scheme 2: #2C3531 #116466 #D9B08C #FFCB9A #D1E8E2 */
+    /* Colour Scheme 3: #5680E9 #84CEEB #5AB9EA #C1C8E4 #8860D0 */
+    /* Colour SCheme 4: #802BB1 #2D283E #564F6F #4C495D #D1D7E0 */
+    --background-color: #0B0C10;
+    --complement-bg-color: #1F2833;
+    --accent-color: #66FCF1;
+    --complement-color: #45A29E;
+    --text-color: #C5C6C7;
   }
 }
 
@@ -17,10 +29,11 @@
 html,
 body {
   max-width: 100vw;
+  color: var(--text-color);
 }
 
 body {
-  background-color: #200C5A;
+  background-color: var(--background-color);
 }
 
 a {

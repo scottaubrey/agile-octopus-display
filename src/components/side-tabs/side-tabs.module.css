@@ -1,20 +1,29 @@
 .sideTabs {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   width: 10vw;
-  position: relative;
-  left: 1px;
 }
-.sideTabs > button {
-  height: 10vh;
-  background: none;
-	color: inherit;
-	border: 1px solid white;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+.tab {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--complement-bg-color);
+  border: 0;
+  margin: 10px 0 0px 10px;
 }
-.sideTabs > button.active {
+.tab:last-child {
+  margin-bottom: 10px;
+}
+.tab * {
+  margin: auto;
+}
+.tab:hover {
+  background-color: var(--complement-color);
+  cursor: pointer;
+}
+.activeTab {
   border-right: 0px;
+  background-color: var(--complement-color);
 }

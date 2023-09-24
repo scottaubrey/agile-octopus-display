@@ -4,13 +4,13 @@ import styles from "./side-tabs.module.css";
 export const SideTabs = () => {
   return (
     <nav className={styles.sideTabs}>
-      <button className="active">
+      <button className={[styles.tab, styles.activeTab].join(' ')}>
         <Unicons.UilCalender />
       </button>
-      <button>
+      <button className={styles.tab}>
         <Unicons.UilSearch />
       </button>
-      <button>
+      <button className={styles.tab}>
         <Unicons.UilLightbulbAlt />
       </button>
     </nav>

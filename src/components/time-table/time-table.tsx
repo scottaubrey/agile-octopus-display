@@ -22,10 +22,12 @@ export const TimeTable = () => {
       {timePeriods.map((timePeriod) => (
         <>
           <dt>
-            {String(timePeriod.getHours()).padStart(2, "0")}:
-            {String(timePeriod.getMinutes()).padStart(2, "0")}:
+            <span>
+              {String(timePeriod.getHours()).padStart(2, "0")}:
+              {String(timePeriod.getMinutes()).padStart(2, "0")}:
+            </span>
           </dt>
-          <dd>16.23p</dd>
+          <dd><span>16.23p</span></dd>
         </>
       ))}
     </dl>

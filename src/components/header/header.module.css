@@ -3,7 +3,7 @@
   text-align: center;
   display: flex;
   justify-content: space-between;
-  background-color: black;
+  background-color: var(--complement-bg-color);
   padding: 10px;
 }
 .header > h1 {
